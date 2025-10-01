@@ -1,0 +1,6 @@
+[submodule "libs/common"]
+	path = libs/common
+	url = git@github.com:kirill-bayborodov/bignum-common.git
+[submodule "libs/shift_left"]
+	path = libs/shift_left
+	url = git@github.com:kirill-bayborodov/bignum-shift-left.git
