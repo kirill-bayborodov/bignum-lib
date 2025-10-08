@@ -1,4 +1,3 @@
-```markdown
 # bignum-lib
 
 **Version: 0.1.0**
@@ -63,5 +62,4 @@ int main() {
     printf("Shifted value: %llu\n", num.words[0]); // Should print 492
     return 0;
 }
-```
 ```
