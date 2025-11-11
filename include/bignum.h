@@ -9,11 +9,11 @@
  */
 
 // 1. Include core data structures from bignum-common
-#include "common/bignum.h"
+#include <common/bignum.h>
 
 // 2. Include function prototypes from submodules
-#include "bignum-shift-left/bignum_shift_left.h"
-#include "bignum-shift-right/bignum_shift_right.h"
+#include <bignum-shift-left/bignum_shift_left.h>
+#include <bignum-shift-right/bignum_shift_right.h>
 // (Future) Include prototypes from other modules here...
 // #include "bignum-add/bignum_add.h"
 

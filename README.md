@@ -1,12 +1,13 @@
 # bignum-lib
 
-**Version: 0.2.0**
+[![C/ASM CI](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml/badge.svg )](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml )
+[![GitHub release (latest by date)](https://img.shields.io/github/bignum-lib/release/kirill-bayborodov/bignum-lib )](https://github.com/kirill-bayborodov/bignum-lib/releases/latest )
 
 `bignum-lib` is a high-performance library for arbitrary-precision integer arithmetic, with core functions written in x86-64 assembly.
 
 This is an aggregator project that combines several modules into a single, easy-to-use static library.
 
-## Current Features (v0.2.0)
+## Current Features 
 
 *   Core data structure `bignum_t`.
 *   High-performance logical left shift (`bignum_shift_left`).
