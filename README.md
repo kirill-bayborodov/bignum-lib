@@ -1,15 +1,16 @@
 # bignum-lib
 
-**Version: 0.1.0**
+**Version: 0.2.0**
 
 `bignum-lib` is a high-performance library for arbitrary-precision integer arithmetic, with core functions written in x86-64 assembly.
 
 This is an aggregator project that combines several modules into a single, easy-to-use static library.
 
-## Current Features (v0.1.0)
+## Current Features (v0.2.0)
 
 *   Core data structure `bignum_t`.
 *   High-performance logical left shift (`bignum_shift_left`).
+*   High-performance logical right shift (`bignum_shift_right`).
 
 ## Prerequisites
 

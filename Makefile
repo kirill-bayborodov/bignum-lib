@@ -18,7 +18,10 @@ BIGNUM_DIR   := $(LIBS_DIR)/common/include
 # --- Files ---
 TARGET_LIB   := $(DIST_DIR)/libbignum.a
 # Собираем список всех объектных файлов, которые должны войти в библиотеку
-OBJECTS      := $(LIBS_DIR)/bignum-shift-left/build/bignum_shift_left.o
+BIGNUM_SHIFT_LEFT_OBJ := $(LIBS_DIR)/bignum-shift-left/build/bignum_shift_left.o
+BIGNUM_SHIFT_RIGHT_OBJ := $(LIBS_DIR)/bignum-shift-right/build/bignum_shift_right.o
+
+OBJECTS      :=  $(LBIGNUM_SHIFT_LEFT_OBJ) $(LBIGNUM_SHIFT_RIGHT_OBJ) 
 # (в будущем здесь будут и другие .o файлы)
 
 .PHONY: all build install test clean help
@@ -36,11 +39,13 @@ install: $(TARGET_LIB)
 	# 1. Создаем нужную структуру папок в dist/
 	mkdir -p $(DIST_DIR)/common
 	mkdir -p $(DIST_DIR)/bignum-shift-left
+	mkdir -p $(DIST_DIR)/bignum-shift-right
 	# 2. Копируем главный заголовочный файл
 	cp $(INCLUDE_DIR)/bignum.h $(DIST_DIR)/
 	# 3. Копируем зависимые заголовочные файлы, сохраняя структуру
 	cp $(LIBS_DIR)/common/include/bignum.h $(DIST_DIR)/common/
 	cp $(LIBS_DIR)/bignum-shift-left/include/bignum_shift_left.h $(DIST_DIR)/bignum-shift-left/
+	cp $(LIBS_DIR)/bignum-shift-right/include/bignum_shift_right.h $(DIST_DIR)/bignum-shift-right/
 	@echo "Installing library and headers to $(DIST_DIR)/..."
 	cp -r $(INCLUDE_DIR)/* $(DIST_DIR)/
 	@echo "Installation complete."
@@ -64,6 +69,7 @@ $(TARGET_LIB): $(OBJECTS) | $(DIST_DIR)
 $(OBJECTS):
 	@echo "Building submodules..."
 	$(MAKE) -C $(LIBS_DIR)/bignum-shift-left build
+	$(MAKE) -C $(LIBS_DIR)/bignum-shift-right build
 
 # --- Utility Targets ---
 
@@ -75,6 +81,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR)
 	@echo "Cleaning up submodules..."
 	$(MAKE) -C $(LIBS_DIR)/bignum-shift-left clean
+	$(MAKE) -C $(LIBS_DIR)/bignum-shift-right clean
 
 help:
 	@echo "Available targets:"

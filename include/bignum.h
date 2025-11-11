@@ -4,17 +4,17 @@
 /**
  * @file    bignum.h
  * @author  git@bayborodov.com
- * @version 0.1.0
+ * @version 0.2.0
  * @brief   Unified public API for the bignum-lib.
  */
 
 // 1. Include core data structures from bignum-common
 #include "common/bignum.h"
 
-// 2. Include function prototypes from bignum-shift-left
+// 2. Include function prototypes from submodules
 #include "bignum-shift-left/bignum_shift_left.h"
-
-// 3. (Future) Include prototypes from other modules here...
+#include "bignum-shift-right/bignum_shift_right.h"
+// (Future) Include prototypes from other modules here...
 // #include "bignum-add/bignum_add.h"
 
 #endif // BIGNUM_LIB_H
