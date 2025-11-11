@@ -1,11 +1,16 @@
 # Makefile for bignum-lib aggregator
 
-
+LIB_NAME     := bignum
 # --- Compiler and Flags ---
 CC           := gcc
 
 # --- Tools ---
 AR           := ar
+STRIP        := strip
+RL           := ranlib
+CPPCHECK     := cppcheck
+OBJCOPY      := objcopy
+NM           := nm
 ARFLAGS      := rcs
 
 # --- Directories ---
@@ -16,12 +21,12 @@ LIBS_DIR     := libs
 BIGNUM_DIR   := $(LIBS_DIR)/common/include
 
 # --- Files ---
-TARGET_LIB   := $(DIST_DIR)/libbignum.a
+TARGET_LIB   := $(DIST_DIR)/lib$(LIB_NAME).a
 # Собираем список всех объектных файлов, которые должны войти в библиотеку
 BIGNUM_SHIFT_LEFT_OBJ := $(LIBS_DIR)/bignum-shift-left/build/bignum_shift_left.o
 BIGNUM_SHIFT_RIGHT_OBJ := $(LIBS_DIR)/bignum-shift-right/build/bignum_shift_right.o
 
-OBJECTS      :=  $(LBIGNUM_SHIFT_LEFT_OBJ) $(LBIGNUM_SHIFT_RIGHT_OBJ) 
+OBJECTS      :=  $(BIGNUM_SHIFT_LEFT_OBJ) $(BIGNUM_SHIFT_RIGHT_OBJ)
 # (в будущем здесь будут и другие .o файлы)
 
 .PHONY: all build install test clean help
@@ -53,17 +58,23 @@ install: $(TARGET_LIB)
 # Цель для запуска интеграционных тестов
 test: install | $(BUILD_DIR)
 	@echo "Running integration tests..."
-	$(CC) tests/test_integration.c -I$(DIST_DIR) -L$(DIST_DIR) -lbignum -o $(BUILD_DIR)/test_runner -no-pie
+	$(CC) tests/test_integration.c -I$(DIST_DIR) -L$(DIST_DIR) -l$(LIB_NAME) -o $(BUILD_DIR)/test_runner -no-pie
 	./$(BUILD_DIR)/test_runner
 
 # --- Compilation Rules ---
 
 # Правило для создания библиотеки из объектных файлов
 $(TARGET_LIB): $(OBJECTS) | $(DIST_DIR)
-	@echo "Creating static library $(TARGET_LIB)..."
+	@echo "Stripping object files, keeping symbol $(LIB_NAME)..."
+	@$(STRIP) --strip-debug $(OBJECTS) || true; 
+	@$(STRIP) --strip-unneeded $(OBJECTS) || true; 
+	@echo "   symbols now:"; $(NM) -g --defined-only $(OBJECTS) || true; 
+	@echo "";		
+	@echo "Creating static library $(TARGET_LIB)..."	
 	$(AR) $(ARFLAGS) $(TARGET_LIB) $(OBJECTS)
 	@echo "Indexing static library..."
-	ranlib $(TARGET_LIB)	
+	ranlib $(TARGET_LIB)
+	@echo "   symbols now:"; $(NM) -g --defined-only $(TARGET_LIB) || true; 		
 
 # Правило для сборки объектных файлов: рекурсивно вызываем make в сабмодулях
 $(OBJECTS):

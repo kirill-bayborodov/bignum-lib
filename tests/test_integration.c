@@ -18,14 +18,14 @@ void test_shift_left_availability() {
 
 void test_shift_right_availability() {
     printf("Running test: Shift Right Availability...\n");
-    bignum_t num = { .len = 1, .words = {1} };
+    bignum_t num = { .len = 1, .words = {2} };
     
     // Просто вызываем функцию, чтобы убедиться, что она слинковалась и доступна
     bignum_shift_right_status_t status = bignum_shift_right(&num, 1);
     
     // Проверяем базовую корректность
     assert(status == BIGNUM_SUCCESS);
-    //assert(num.words[0] == 2);
+    assert(num.words[0] == 1);
     
     printf("Test PASSED.\n");
 }
