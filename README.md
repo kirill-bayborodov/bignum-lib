@@ -1,7 +1,8 @@
 # bignum-lib
 
-[![C/ASM CI](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml/badge.svg )](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml )
-[![GitHub release (latest by date)](https://img.shields.io/github/bignum-lib/release/kirill-bayborodov/bignum-lib )](https://github.com/kirill-bayborodov/bignum-lib/releases/latest )
+[![C/ASM CI](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml/badge.svg)](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-lib?label=release)](https://github.com/kirill-bayborodov/bignum-lib/releases/latest)
+
 
 `bignum-lib` is a high-performance library for arbitrary-precision integer arithmetic, with core functions written in x86-64 assembly.
 
