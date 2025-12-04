@@ -1,7 +1,3 @@
-[submodule "libs/common"]
-	path = libs/common
-	url = https://github.com/kirill-bayborodov/bignum-common.git
-	branch = v1.0.0
 [submodule "libs/bignum-shift-left"]
 	path = libs/bignum-shift-left
 	url = https://github.com/kirill-bayborodov/bignum-shift-left.git
@@ -10,3 +6,23 @@
 	path = libs/bignum-shift-right
 	url = https://github.com/kirill-bayborodov/bignum-shift-right.git
 	branch = v1.0.0
+[submodule "libs/bignum-common"]
+	path = libs/bignum-common
+	url = https://github.com/kirill-bayborodov/bignum-common.git
+	branch = v1.0.2
+[submodule "libs/bignum-cmp"]
+	path = libs/bignum-cmp
+	url = https://github.com/kirill-bayborodov/bignum-cmp.git
+	branch = latest
+[submodule "libs/bignum-div-u64"]
+	path = libs/bignum-div-u64
+	url = https://github.com/kirill-bayborodov/bignum-div-u64.git
+[submodule "libs/bignum-mul-bignum"]
+	path = libs/bignum-mul-bignum
+	url = https://github.com/kirill-bayborodov/bignum-mul-bignum.git
+[submodule "libs/bignum-mul-u64"]
+	path = libs/bignum-mul-u64
+	url = https://github.com/kirill-bayborodov/bignum-mul-u64.git
+[submodule "libs/bignum-sub"]
+	path = libs/bignum-sub
+	url = https://github.com/kirill-bayborodov/bignum-sub.git
