@@ -102,7 +102,7 @@ dist: clean install test
 	@cp LICENSE $(DIST_DIR)/
 	@echo "Done."	
 	@ls -l $(DIST_DIR)
-	
+
 # Цель для запуска интеграционных тестов
 test: install 
 # Компилируем тест-раннер в dist, статически линкуя библиотеку из dist и тестируем сборку с библиотекой
@@ -129,7 +129,7 @@ $(STATIC_LIB): $(OBJECTS)
 	@$(NM) $(NMFLAGS)  $(STATIC_LIB)	
 
 # Правило для создания объединенного заголовочного файла
-$(HEADER): $(HEADERS)
+$(HEADER): $(HEADERS) | $(INCLUDE_DIR)
 	@echo "Creating single-file header in $(INCLUDE_DIR)/ ..."
 # 4. Создаем КОРРЕКТНЫЙ единый заголовочный файл
 	@printf "%s"  "Generating single-file header..."
@@ -173,7 +173,7 @@ $(OBJECTS): $(ASM_SOURCES)
 $(BUILD_DIR):
 	@$(MKDIR) $@
 
-$(BIN_DIR) $(REPORTS_DIR) $(DIST_INCLUDE_DIR) $(DIST_LIB_DIR):
+$(BIN_DIR) $(REPORTS_DIR) $(INCLUDE_DIR) $(LIBS_DIR):
 	@$(MKDIR) $@	
 
 lint: $(HEADER) 
@@ -190,8 +190,8 @@ lint: $(HEADER)
 	@echo "Ok";		    
 
 clean:
-	@echo "Cleaning up build artifacts (build/, bin/, dist/, single-header-file)..."
-	@$(RM) $(BUILD_DIR) $(BIN_DIR) $(DIST_DIR) $(SINGLE_HEADER) 
+	@echo "Cleaning up build artifacts (build/, bin/, dist/, include/ single-header-file)..."
+	@$(RM) $(BUILD_DIR) $(BIN_DIR) $(DIST_DIR) $(INCLUDE_DIR) $(SINGLE_HEADER) 
 	@echo "Cleaning up submodule artifacts:" ; 		
 	@$(foreach d,$(OBJ_LIST), \
 	  (printf "%s" "Clean for $(d) : " && $(MAKE) -C $(LIBS_DIR)/$(d) -s clean) || echo "\n\t\t⚠️  $(d) has no rule clean\n"; \
