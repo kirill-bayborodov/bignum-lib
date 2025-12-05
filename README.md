@@ -10,9 +10,14 @@ This is an aggregator project that combines several modules into a single, easy-
 
 ## Current Features 
 
-*   Core data structure `bignum_t`.
-*   High-performance logical left shift (`bignum_shift_left`).
-*   High-performance logical right shift (`bignum_shift_right`).
+*   Core data structure `bignum_t` and type definitions used by all other bignum modules.(`bignum_common`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-common?label=release)](https://github.com/kirill-bayborodov/bignum-common/releases/latest)
+*   logical left shift (`bignum_shift_left`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-left?label=release)](https://github.com/kirill-bayborodov/bignum-shift-left/releases/latest)
+*   logical right shift (`bignum_shift_right`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-right?label=release)](https://github.com/kirill-bayborodov/bignum-shift-right/releases/latest)
+*   logical compare (`bignum_cmp`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-cmp?label=release)](https://github.com/kirill-bayborodov/bignum-cmp/releases/latest)
+*   dividing a large number by uint64_t (`bignum_div_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-div-u64?label=release)](https://github.com/kirill-bayborodov/bignum-div-u64/releases/latest)
+*   multiplication of two large numbers (`bignum_mul_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-mul-bignum/releases/latest)
+*   multiplication of bignum_t by uint64_t (`bignum_mul_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-u64?label=release)](https://github.com/kirill-bayborodov/bignum-mul-u64/releases/latest)
+*   subtraction function for large integers (bignum) (`bignum_sub`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub?label=release)](https://github.com/kirill-bayborodov/bignum-sub/releases/latest)
 
 ## Prerequisites
 
