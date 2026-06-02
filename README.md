@@ -8,7 +8,7 @@
 
 This is an aggregator project that combines several modules into a single, easy-to-use static library.
 
-## Current Features 
+## Current Features
 
 *   Core data structure `bignum_t` and type definitions used by all other bignum modules.(`bignum_common`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-common?label=release)](https://github.com/kirill-bayborodov/bignum-common/releases/latest)
 *   logical left shift (`bignum_shift_left`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-left?label=release)](https://github.com/kirill-bayborodov/bignum-shift-left/releases/latest)
