@@ -44,11 +44,18 @@ DIST_LIB_DIR = $(DIST_DIR)/$(LIBS_DIR)
 # Собираем список всех объектных файлов, которые должны войти в библиотеку
 SUBMODULES  := $(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/)))
 SUBMODULES_INCLUDE_DIR := $(foreach d,$(SUBMODULES),$(LIBS_DIR)/$(d)/$(INCLUDE_DIR))
-OBJ_LIST    := $(filter-out $(COMMON_NAME),$(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/))))
+#OBJ_LIST    := $(filter-out $(COMMON_NAME),$(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/))))
+OBJ_LIST    := $(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/)))
 OBJECTS     := $(foreach d,$(OBJ_LIST),$(LIBS_DIR)/$(d)/$(BUILD_DIR)/$(subst -,_,$(d)).o)
 ASM_SOURCES := $(foreach d,$(OBJ_LIST),$(LIBS_DIR)/$(d)/$(SRC_DIR)/$(subst -,_,$(d)).asm)
 HEADERS     := $(foreach d,$(OBJ_LIST),$(LIBS_DIR)/$(d)/$(INCLUDE_DIR)/$(subst -,_,$(d)).h)
 RUNNERS     := $(foreach d,$(OBJ_LIST),$(LIBS_DIR)/$(d)/$(TESTS_DIR)/test_$(subst -,_,$(d))_runner.c)
+# Собираем все заголовочные файлы сабмодулей
+SUBMODULES_HEADERS_RAW := $(foreach dir,$(SUBMODULES_INCLUDE_DIR),$(wildcard $(dir)/*.h))
+
+# Выносим bignum.h на первое место, а затем добавляем все остальные файлы
+SUBMODULES_HEADERS := $(filter $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h, $(SUBMODULES_HEADERS_RAW)) \
+                      $(filter-out $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h, $(SUBMODULES_HEADERS_RAW))
 
 
 # --- Source & Target Files ---
@@ -129,7 +136,7 @@ $(STATIC_LIB): $(OBJECTS)
 	@$(NM) $(NMFLAGS)  $(STATIC_LIB)	
 
 # Правило для создания объединенного заголовочного файла
-$(HEADER): $(HEADERS) | $(INCLUDE_DIR)
+$(HEADER): $(SUBMODULES_HEADERS) | $(INCLUDE_DIR)
 	@echo "Creating single-file header in $(INCLUDE_DIR)/ ..."
 # 4. Создаем КОРРЕКТНЫЙ единый заголовочный файл
 	@printf "%s"  "Generating single-file header..."
@@ -138,19 +145,14 @@ $(HEADER): $(HEADERS) | $(INCLUDE_DIR)
 	@echo "#define $(UPPER_LIB_NAME)_SINGLE_H" >> $(SINGLE_HEADER)
 	@echo "" >> $(SINGLE_HEADER)
 
-# 4.2. Вставляем содержимое bignum.h, но БЕЗ его собственных include guards
-	@echo "/* --- Included from libs/bignum-common/include/bignum.h --- */" >> $(SINGLE_HEADER)
-# sed удаляет строки, содержащие BIGNUM_H
-	@sed '/BIGNUM_H/d' $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h >> $(SINGLE_HEADER)
-	@echo "" >> $(SINGLE_HEADER)
-# 4.3. Вставляем содержимое $(LIB_NAME).h, но БЕЗ его include guards и БЕЗ #include "bignum.h"
+# 4.2. Вставляем содержимое $(LIB_NAME).h, но БЕЗ его include guards и БЕЗ #include "bignum.h"
 # sed удаляет строки с BIGNUM_SHIFT_LEFT_H и #include "bignum.h"
-	@$(foreach h,$(HEADERS), \
+	@$(foreach h,$(SUBMODULES_HEADERS), \
 	   ( echo "/* --- Included from $(h) --- */" >> $(SINGLE_HEADER) && \
 	     sed -e '/$(subst z,Z,$(subst y,Y,$(subst x,X,$(subst w,W,$(subst v,V,$(subst u,U,$(subst t,T,$(subst s,S,$(subst r,R,$(subst q,Q,$(subst p,P,$(subst o,O,$(subst n,N,$(subst m,M,$(subst l,L,$(subst k,K,$(subst j,J,$(subst i,I,$(subst h,H,$(subst g,G,$(subst f,F,$(subst e,E,$(subst d,D,$(subst c,C,$(subst b,B,$(subst a,A,$(basename $(notdir $(H)))))))))))))))))))))))))))))_H/d' -e '/#include <$(FAMILY_NAME).h>/d' $(h) >> $(SINGLE_HEADER) && \
 	     echo "" >> $(SINGLE_HEADER) ); \
 	)	
-# 4.4. Закрываем единый include guard
+# 4.3. Закрываем единый include guard
 	@echo "#endif // $(UPPER_LIB_NAME)_SINGLE_H" >> $(SINGLE_HEADER)
 	@echo "Ok"
 
@@ -224,5 +226,6 @@ show-calc:
 	@echo "SUBMODULES = $(SUBMODULES)"	
 	@echo "SUBMODULES_INCLUDE_DIR = $(SUBMODULES_INCLUDE_DIR)"	
 	@echo "ALL_HEADERS = $(foreach dir,$(SUBMODULES_INCLUDE_DIR),$(wildcard $(dir)/*.h))	"	
+	@echo "SUBMODULES_HEADERS = $(SUBMODULES_HEADERS)"	
 	@echo "RUNNERS = $(RUNNERS) "		
 
