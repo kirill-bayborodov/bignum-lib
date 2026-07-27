@@ -22,3 +22,6 @@
 [submodule "libs/bignum-sub"]
 	path = libs/bignum-sub
 	url = https://github.com/kirill-bayborodov/bignum-sub.git
+[submodule "bignum-div-bignum"]
+	path = bignum-div-bignum
+	url = https://github.com/kirill-bayborodov/bignum-div-bignum.git
