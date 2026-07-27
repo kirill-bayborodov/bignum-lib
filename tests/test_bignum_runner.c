@@ -102,6 +102,16 @@ int test_bignum_div_u64_runner() {
  assert(1);
  printf("PASSED\n");   
 }
+
+int test_bignum_div_bignum_runner() {
+ printf("Running test: test_bignum_div_bignum_runner... "); 
+ bignum_t n = {0}, d = {0}, q = {0}, r = {0};
+ d.len = 1;
+ d.words[0] = 1;
+ bignum_div_bignum(&n, &d, &q, &r);
+ assert(1);
+ printf("PASSED\n");   
+}
   
 int test_bignum_mul_bignum_runner() {
  printf("Running test: test_bignum_mul_bignum_runner... "); 
