@@ -17,7 +17,7 @@ This is an aggregator project that combines several modules into a single, easy-
 *   division of two large numbers (`bignum_div_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-div-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-div-bignum/releases/latest)
 *   multiplication of two large numbers (`bignum_mul_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-mul-bignum/releases/latest)
 *   multiplication of bignum_t by uint64_t (`bignum_mul_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-u64?label=release)](https://github.com/kirill-bayborodov/bignum-mul-u64/releases/latest)
-*   subtraction function for large integers (bignum) (`bignum_sub`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub?label=release)](https://github.com/kirill-bayborodov/bignum-sub/releases/latest)
+*   subtraction function for large integers (bignum) (`bignum_sub_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-sub-bignum/releases/latest)
 
 ## Prerequisites
 
