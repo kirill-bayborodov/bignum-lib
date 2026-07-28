@@ -19,9 +19,9 @@
 [submodule "bignum-shift-right"]
 	path = libs/bignum-shift-right
 	url = https://github.com/kirill-bayborodov/bignum-shift-right.git
-[submodule "libs/bignum-sub"]
-	path = libs/bignum-sub
-	url = https://github.com/kirill-bayborodov/bignum-sub.git
 [submodule "bignum-div-bignum"]
 	path = libs/bignum-div-bignum
 	url = https://github.com/kirill-bayborodov/bignum-div-bignum.git
+[submodule "libs/bignum-sub-bignum"]
+	path = libs/bignum-sub-bignum
+	url = https://github.com/kirill-bayborodov/bignum-sub-bignum.git
