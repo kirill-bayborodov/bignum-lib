@@ -150,12 +150,12 @@ int test_bignum_shift_right_runner() {
  printf("PASSED\n");   
 }
   
-int test_bignum_sub_runner() {
- printf("Running test: test_bignum_sub_runner... "); 
+int test_bignum_sub_bignum_runner() {
+ printf("Running test: test_bignum_sub_bignum_runner... "); 
  bignum_t res = {.words = {0}, .len = 0};  
  bignum_t a = {.words = {12345}, .len = 1};
  bignum_t b = {.words = {10000}, .len = 1};  	
- bignum_sub(&res, &a, &b);  
+ bignum_sub_bignum(&res, &a, &b);  
  assert(1);
  printf("PASSED\n");   
 }
@@ -169,7 +169,7 @@ int main() {
     test_bignum_mul_u64_runner();
     test_bignum_shift_left_runner();
     test_bignum_shift_right_runner();
-    test_bignum_sub_runner();
+    test_bignum_sub_bignum_runner();
     printf("--- All integration tests passed! ---\n");
     return 0;
 }
