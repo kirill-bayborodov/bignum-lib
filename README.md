@@ -19,6 +19,7 @@ This is an aggregator project that combines several modules into a single, easy-
 *   multiplication of bignum_t by uint64_t (`bignum_mul_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-u64?label=release)](https://github.com/kirill-bayborodov/bignum-mul-u64/releases/latest)
 *   subtraction function for large integers (bignum) (`bignum_sub_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-sub-bignum/releases/latest)
 *   subtracting a 64-bit unsigned integer from a large number (`bignum_sub_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-u64?label=release)](https://github.com/kirill-bayborodov/bignum-sub-u64/releases/latest)
+*   addition of two large numbers (`bignum_add_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-add-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-add-bignum/releases/latest)
 
 ## Prerequisites
 
