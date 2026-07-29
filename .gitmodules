@@ -28,3 +28,6 @@
 [submodule "libs/bignum-sub-u64"]
 	path = libs/bignum-sub-u64
 	url = https://github.com/kirill-bayborodov/bignum-sub-u64.git
+[submodule "libs/bignum-add-bignum"]
+	path = libs/bignum-add-bignum
+	url = https://github.com/kirill-bayborodov/bignum-add-bignum.git
