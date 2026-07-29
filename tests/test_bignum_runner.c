@@ -1,8 +1,8 @@
 /**
  * @file    test_bignum_runner.c
  * @author  git@bayborodov.com
- * @version 1.0.0
- * @date    04.12.2025
+ * @version 1.0.2
+ * @date    29.07.2026
  *
  * @brief Интеграционный тест‑раннер для библиотеки libbignum.a.
  * @details Применяется для проверки достаточности сигнатур 
@@ -11,6 +11,7 @@
  *
  * @history
  *   - rev. 1 (04.12.2025): Создание теста
+ *   - rev. 2 (29.07.2026): Добавление тести для bignum_sub_u64
  */  
 #include "bignum.h"
 #include <assert.h>
@@ -160,6 +161,16 @@ int test_bignum_sub_bignum_runner() {
  printf("PASSED\n");   
 }
 
+int test_bignum_sub_u64_runner() {
+ printf("Running test: test_bignum_sub_u64_runner... "); 
+ bignum_t res = {.words = {0}, .len = 0};
+ bignum_t a = {.words = {12345}, .len = 1};
+ uint64_t b = 10000;
+ bignum_sub_u64(&res, &a, b);
+ assert(1);
+ printf("PASSED\n");   
+}
+
 int main() {
     printf("\n--- Running bignum-lib Integration Tests ---\n");
     test_bignum_commom_runner();
@@ -170,6 +181,7 @@ int main() {
     test_bignum_shift_left_runner();
     test_bignum_shift_right_runner();
     test_bignum_sub_bignum_runner();
+    test_bignum_sub_u64_runner();    
     printf("--- All integration tests passed! ---\n");
     return 0;
 }

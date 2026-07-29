@@ -18,6 +18,7 @@ This is an aggregator project that combines several modules into a single, easy-
 *   multiplication of two large numbers (`bignum_mul_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-mul-bignum/releases/latest)
 *   multiplication of bignum_t by uint64_t (`bignum_mul_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-u64?label=release)](https://github.com/kirill-bayborodov/bignum-mul-u64/releases/latest)
 *   subtraction function for large integers (bignum) (`bignum_sub_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-sub-bignum/releases/latest)
+*   subtracting a 64-bit unsigned integer from a large number (`bignum_sub_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-u64?label=release)](https://github.com/kirill-bayborodov/bignum-sub-u64/releases/latest)
 
 ## Prerequisites
 
@@ -40,7 +41,7 @@ This command will compile all modules and create the static library `libbignum.a
 make build
 ```
 
-**3. Install (Optional ):**
+**3. Install (Optional):**
 This will copy the library and all necessary public headers into the `dist/` directory, creating a self-contained package.
 ```bash
 make install

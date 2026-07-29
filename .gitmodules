@@ -25,3 +25,6 @@
 [submodule "libs/bignum-sub-bignum"]
 	path = libs/bignum-sub-bignum
 	url = https://github.com/kirill-bayborodov/bignum-sub-bignum.git
+[submodule "libs/bignum-sub-u64"]
+	path = libs/bignum-sub-u64
+	url = https://github.com/kirill-bayborodov/bignum-sub-u64.git
