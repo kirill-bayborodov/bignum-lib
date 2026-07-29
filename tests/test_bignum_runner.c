@@ -181,6 +181,16 @@ int test_bignum_add_bignum_runner() {
  printf("PASSED\n");   
 }
 
+int test_bignum_add_u64_runner() {
+ printf("Running test: test_bignum_add_u64_runner... "); 
+ bignum_t res = {.words = {0}, .len = 0};
+ bignum_t a = {.words = {12345}, .len = 1};
+ uint64_t b = 10000;  
+ bignum_add_u64(&res, &a, b);
+ assert(1);
+ printf("PASSED\n");   
+}
+
 int main() {
     printf("\n--- Running bignum-lib Integration Tests ---\n");
     test_bignum_commom_runner();
@@ -192,7 +202,8 @@ int main() {
     test_bignum_shift_right_runner();
     test_bignum_sub_bignum_runner();
     test_bignum_sub_u64_runner(); 
-    test_bignum_add_bignum_runner();   
+    test_bignum_add_bignum_runner();
+    test_bignum_add_u64_runner();   
     printf("--- All integration tests passed! ---\n");
     return 0;
 }

@@ -31,3 +31,6 @@
 [submodule "libs/bignum-add-bignum"]
 	path = libs/bignum-add-bignum
 	url = https://github.com/kirill-bayborodov/bignum-add-bignum.git
+[submodule "libs/bignum-add-u64"]
+	path = libs/bignum-add-u64
+	url = https://github.com/kirill-bayborodov/bignum-add-u64.git
