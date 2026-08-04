@@ -3,7 +3,7 @@ name: C/ASM CI
 on:
   push:
     branches: [ "main" ]
-    tags:    # релизы создаются при push тега вида v*
+    tags:
       - 'v*'
   pull_request:
     branches: [ "main" ]
@@ -16,25 +16,67 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v6
       with:
-        submodules: 'recursive' # Важно для подключения bignum-common
+        submodules: 'recursive' # КРИТИЧНО: вытягивает вложенные bignum-common
+
+    - name: Download vendor libraries dist artifacts
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -euo pipefail
+        
+        # Проходим по всем папкам внутри libs/
+        for dir in libs/*/; do
+          dir=${dir%/}
+          libname=$(basename "$dir")
+          
+          # Если нет Makefile и src - значит это вендорный дистрибутив, скачиваем его
+          if [ -d "$dir" ] && [ ! -f "$dir/Makefile" ] && [ ! -d "$dir/src" ] && [ ! -d "$dir/include" ]; then
+            echo "========================================"
+            echo "🔄 Processing vendor library: $libname"
+            
+            REPO="${{ github.repository_owner }}/$libname"
+            BRANCH="main"
+            
+            RUN_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${REPO}/actions/runs?branch=${BRANCH}&status=success&per_page=1" | \
+              jq -r '.workflow_runs[0].id'  )
+              
+            if [[ -z "$RUN_ID" || "$RUN_ID" == "null" ]]; then
+              echo "❌ Не удалось получить RUN_ID для $REPO"
+              exit 1
+            fi
+
+            ARTIFACT_URL=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${REPO}/actions/runs/${RUN_ID}/artifacts" | \
+              jq -r '.artifacts[] | select(.name=="dist"  ) | .archive_download_url')
+              
+            if [[ -z "$ARTIFACT_URL" || "$ARTIFACT_URL" == "null" ]]; then
+              echo "❌ Не найден артефакт dist для $REPO"
+              exit 1
+            fi
+
+            curl -L -H "Authorization: token $GITHUB_TOKEN" \
+                 -H "Accept: application/vnd.github+json" \
+                 -o dist.zip "$ARTIFACT_URL"
+                 
+            mkdir -p "$dir/dist"
+            unzip -o -q dist.zip -d "$dir/dist"
+            rm dist.zip
+            echo "✅ $libname артефакт помещён в $dir/dist"
+          fi
+        done
 
     - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential yasm cppcheck 
+      run: sudo apt-get update && sudo apt-get install -y build-essential yasm cppcheck
 
     - name: Build project (Release)
       run: make build CONFIG=release
-    
+
     - name: Run static analysis
-      run: make lint      
+      run: make lint CONFIG=release
 
-    - name: Run unit tests (Release)
-      run: make test CONFIG=release
-
-    - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential yasm
-    
-    - name: Create distribution
-      run: make dist
+    - name: Create distribution and run integration tests
+      run: make dist CONFIG=release
 
     - name: Upload dist artifact
       uses: actions/upload-artifact@v7
@@ -42,33 +84,17 @@ jobs:
         name: dist
         path: dist
 
-    - name: Download dist artifact
-      uses: actions/download-artifact@v7
-      with:
-        name: dist
-        path: dist
-
-    - name: Pack dist
-      id: dist
-      run: |
-        ARCHIVE="lib-${{ github.event.repository.name }}-${{ github.ref_name }}.tar.gz"
-        tar -C dist -czf "$ARCHIVE" .
-        echo "archive=$ARCHIVE" >> $GITHUB_OUTPUT
-
   release:
     needs: build-and-test
     runs-on: ubuntu-latest
     permissions:
-        contents: write    
-    if: startsWith(github.ref, 'refs/tags/v')   # только для тегов вида v*
+      contents: write
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
       with:
         submodules: 'recursive'
-
-    - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential yasm
 
     - name: Download dist artifact
       uses: actions/download-artifact@v7
@@ -91,4 +117,3 @@ jobs:
           --title "${{ github.ref_name }}" \
           --notes "Release for ${{ github.ref_name }}" \
           ${{ steps.dist.outputs.archive }}
-
