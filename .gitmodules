@@ -1,36 +1,153 @@
-[submodule "libs/bignum-cmp"]
-	path = libs/bignum-cmp
-	url = https://github.com/kirill-bayborodov/bignum-cmp.git
-[submodule "libs/bignum-div-u64"]
-	path = libs/bignum-div-u64
-	url = https://github.com/kirill-bayborodov/bignum-div-u64.git
+[submodule "libs/bignum-abs"]
+	path = libs/bignum-abs
+	url = https://github.com/kirill-bayborodov/bignum-abs.git
+[submodule "libs/bignum-and"]
+	path = libs/bignum-and
+	url = https://github.com/kirill-bayborodov/bignum-and.git
+[submodule "libs/bignum-bit-clear"]
+	path = libs/bignum-bit-clear
+	url = https://github.com/kirill-bayborodov/bignum-bit-clear.git
+[submodule "libs/bignum-bit-set"]
+	path = libs/bignum-bit-set
+	url = https://github.com/kirill-bayborodov/bignum-bit-set.git
+[submodule "libs/bignum-bit-test"]
+	path = libs/bignum-bit-test
+	url = https://github.com/kirill-bayborodov/bignum-bit-test.git
+[submodule "libs/bignum-copy"]
+	path = libs/bignum-copy
+	url = https://github.com/kirill-bayborodov/bignum-copy.git
+[submodule "libs/bignum-core"]
+	path = libs/bignum-core
+	url = https://github.com/kirill-bayborodov/bignum-core.git
+[submodule "libs/bignum-crt"]
+	path = libs/bignum-crt
+	url = https://github.com/kirill-bayborodov/bignum-crt.git
+[submodule "libs/bignum-fast-div"]
+	path = libs/bignum-fast-div
+	url = https://github.com/kirill-bayborodov/bignum-fast-div.git
+[submodule "libs/bignum-from-hex"]
+	path = libs/bignum-from-hex
+	url = https://github.com/kirill-bayborodov/bignum-from-hex.git
+[submodule "libs/bignum-gcd"]
+	path = libs/bignum-gcd
+	url = https://github.com/kirill-bayborodov/bignum-gcd.git
+[submodule "libs/bignum-init-pow10"]
+	path = libs/bignum-init-pow10
+	url = https://github.com/kirill-bayborodov/bignum-init-pow10.git
+[submodule "libs/bignum-inverse"]
+	path = libs/bignum-inverse
+	url = https://github.com/kirill-bayborodov/bignum-inverse.git
+[submodule "libs/bignum-is-prime"]
+	path = libs/bignum-is-prime
+	url = https://github.com/kirill-bayborodov/bignum-is-prime.git
+[submodule "libs/bignum-isqrt"]
+	path = libs/bignum-isqrt
+	url = https://github.com/kirill-bayborodov/bignum-isqrt.git
+[submodule "libs/bignum-jacobi"]
+	path = libs/bignum-jacobi
+	url = https://github.com/kirill-bayborodov/bignum-jacobi.git
+[submodule "libs/bignum-karatsuba-mul"]
+	path = libs/bignum-karatsuba-mul
+	url = https://github.com/kirill-bayborodov/bignum-karatsuba-mul.git
+[submodule "libs/bignum-mod"]
+	path = libs/bignum-mod
+	url = https://github.com/kirill-bayborodov/bignum-mod.git
+[submodule "libs/bignum-mod-exp"]
+	path = libs/bignum-mod-exp
+	url = https://github.com/kirill-bayborodov/bignum-mod-exp.git
+[submodule "libs/bignum-mod-inv"]
+	path = libs/bignum-mod-inv
+	url = https://github.com/kirill-bayborodov/bignum-mod-inv.git
+[submodule "libs/bignum-mod-sqrt"]
+	path = libs/bignum-mod-sqrt
+	url = https://github.com/kirill-bayborodov/bignum-mod-sqrt.git
+[submodule "libs/bignum-montgomery-mul"]
+	path = libs/bignum-montgomery-mul
+	url = https://github.com/kirill-bayborodov/bignum-montgomery-mul.git
+[submodule "libs/bignum-mul-pow10"]
+	path = libs/bignum-mul-pow10
+	url = https://github.com/kirill-bayborodov/bignum-mul-pow10.git
+[submodule "libs/bignum-mul-pow5"]
+	path = libs/bignum-mul-pow5
+	url = https://github.com/kirill-bayborodov/bignum-mul-pow5.git
+[submodule "libs/bignum-not"]
+	path = libs/bignum-not
+	url = https://github.com/kirill-bayborodov/bignum-not.git
+[submodule "libs/bignum-or"]
+	path = libs/bignum-or
+	url = https://github.com/kirill-bayborodov/bignum-or.git
+[submodule "libs/bignum-pow"]
+	path = libs/bignum-pow
+	url = https://github.com/kirill-bayborodov/bignum-pow.git
+[submodule "libs/bignum-prime-gen"]
+	path = libs/bignum-prime-gen
+	url = https://github.com/kirill-bayborodov/bignum-prime-gen.git
+[submodule "libs/bignum-random"]
+	path = libs/bignum-random
+	url = https://github.com/kirill-bayborodov/bignum-random.git
+[submodule "libs/bignum-swap"]
+	path = libs/bignum-swap
+	url = https://github.com/kirill-bayborodov/bignum-swap.git
+[submodule "libs/bignum-to-hex"]
+	path = libs/bignum-to-hex
+	url = https://github.com/kirill-bayborodov/bignum-to-hex.git
+[submodule "libs/bignum-to-string"]
+	path = libs/bignum-to-string
+	url = https://github.com/kirill-bayborodov/bignum-to-string.git
+[submodule "libs/bignum-xor"]
+	path = libs/bignum-xor
+	url = https://github.com/kirill-bayborodov/bignum-xor.git
 [submodule "libs/bignum-common"]
 	path = libs/bignum-common
 	url = https://github.com/kirill-bayborodov/bignum-common.git
-[submodule "bignum-mul-u64"]
-	path = libs/bignum-mul-u64
-	url = https://github.com/kirill-bayborodov/bignum-mul-u64.git
-[submodule "bignum-mul-bignum"]
-	path = libs/bignum-mul-bignum
-	url = https://github.com/kirill-bayborodov/bignum-mul-bignum.git
-[submodule "bignum-shift-left"]
-	path = libs/bignum-shift-left
-	url = https://github.com/kirill-bayborodov/bignum-shift-left.git
-[submodule "bignum-shift-right"]
-	path = libs/bignum-shift-right
-	url = https://github.com/kirill-bayborodov/bignum-shift-right.git
-[submodule "bignum-div-bignum"]
-	path = libs/bignum-div-bignum
-	url = https://github.com/kirill-bayborodov/bignum-div-bignum.git
-[submodule "libs/bignum-sub-bignum"]
-	path = libs/bignum-sub-bignum
-	url = https://github.com/kirill-bayborodov/bignum-sub-bignum.git
-[submodule "libs/bignum-sub-u64"]
-	path = libs/bignum-sub-u64
-	url = https://github.com/kirill-bayborodov/bignum-sub-u64.git
 [submodule "libs/bignum-add-bignum"]
 	path = libs/bignum-add-bignum
 	url = https://github.com/kirill-bayborodov/bignum-add-bignum.git
 [submodule "libs/bignum-add-u64"]
 	path = libs/bignum-add-u64
 	url = https://github.com/kirill-bayborodov/bignum-add-u64.git
+[submodule "libs/bignum-cmp"]
+	path = libs/bignum-cmp
+	url = https://github.com/kirill-bayborodov/bignum-cmp.git
+[submodule "libs/bignum-div-bignum"]
+	path = libs/bignum-div-bignum
+	url = https://github.com/kirill-bayborodov/bignum-div-bignum.git
+[submodule "libs/bignum-div-u64"]
+	path = libs/bignum-div-u64
+	url = https://github.com/kirill-bayborodov/bignum-div-u64.git
+[submodule "libs/bignum-mul-bignum"]
+	path = libs/bignum-mul-bignum
+	url = https://github.com/kirill-bayborodov/bignum-mul-bignum.git
+[submodule "libs/bignum-mul-u64"]
+	path = libs/bignum-mul-u64
+	url = https://github.com/kirill-bayborodov/bignum-mul-u64.git
+[submodule "libs/bignum-shift-left"]
+	path = libs/bignum-shift-left
+	url = https://github.com/kirill-bayborodov/bignum-shift-left.git
+[submodule "libs/bignum-shift-right"]
+	path = libs/bignum-shift-right
+	url = https://github.com/kirill-bayborodov/bignum-shift-right.git
+[submodule "vendor/compat/bignum-clear-tail"]
+	path = vendor/compat/bignum-clear-tail
+	url = https://github.com/kirill-bayborodov/bignum-clear-tail.git
+[submodule "vendor/compat/bignum-init"]
+	path = vendor/compat/bignum-init
+	url = https://github.com/kirill-bayborodov/bignum-init.git
+[submodule "vendor/compat/bignum-init-from-array"]
+	path = vendor/compat/bignum-init-from-array
+	url = https://github.com/kirill-bayborodov/bignum-init-from-array.git
+[submodule "vendor/compat/bignum-init-from-string"]
+	path = vendor/compat/bignum-init-from-string
+	url = https://github.com/kirill-bayborodov/bignum-init-from-string.git
+[submodule "vendor/compat/bignum-init-pow10"]
+	path = vendor/compat/bignum-init-pow10
+	url = https://github.com/kirill-bayborodov/bignum-init-pow10.git
+[submodule "vendor/compat/bignum-init-u64"]
+	path = vendor/compat/bignum-init-u64
+	url = https://github.com/kirill-bayborodov/bignum-init-u64.git
+[submodule "vendor/compat/bignum-is-zero"]
+	path = vendor/compat/bignum-is-zero
+	url = https://github.com/kirill-bayborodov/bignum-is-zero.git
+[submodule "vendor/compat/bignum-normalize"]
+	path = vendor/compat/bignum-normalize
+	url = https://github.com/kirill-bayborodov/bignum-normalize.git

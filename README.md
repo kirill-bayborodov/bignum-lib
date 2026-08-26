@@ -1,76 +1,84 @@
 # bignum-lib
 
 [![C/ASM CI](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml/badge.svg)](https://github.com/kirill-bayborodov/bignum-lib/actions/workflows/ci.yml)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-lib?label=release)](https://github.com/kirill-bayborodov/bignum-lib/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-lib?label=release)](https://github.com/kirill-bayborodov/bignum-lib/releases/latest)
 
-`bignum-lib` is a high-performance library for arbitrary-precision integer arithmetic, with core functions written in x86-64 assembly.
+`bignum-lib` is a unified static-library distribution for the completed `bignum-*` family. It aggregates independently released C11 reference and x86-64 YASM modules behind one generated public header, `dist/bignum.h`, and one archive, `dist/libbignum.a`.
 
-This is an aggregator project that combines several modules into a single, easy-to-use static library.
+## Scope and invariants
 
-## Current Features
+The repository is an aggregator, not a replacement for the individual module repositories. Each operation remains owned by its upstream repository and is included here as a pinned Git submodule. The aggregate preserves the fixed-capacity unsigned `bignum_t` representation, little-endian 64-bit words, normalized lengths, caller-owned storage, and the transactional contracts documented by each operation module.
 
-*   Core data structure `bignum_t` and type definitions used by all other bignum modules.(`bignum_common`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-common?label=release)](https://github.com/kirill-bayborodov/bignum-common/releases/latest)
-*   logical left shift (`bignum_shift_left`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-left?label=release)](https://github.com/kirill-bayborodov/bignum-shift-left/releases/latest)
-*   logical right shift (`bignum_shift_right`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-shift-right?label=release)](https://github.com/kirill-bayborodov/bignum-shift-right/releases/latest)
-*   logical compare (`bignum_cmp`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-cmp?label=release)](https://github.com/kirill-bayborodov/bignum-cmp/releases/latest)
-*   dividing a large number by uint64_t (`bignum_div_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-div-u64?label=release)](https://github.com/kirill-bayborodov/bignum-div-u64/releases/latest)
-*   division of two large numbers (`bignum_div_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-div-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-div-bignum/releases/latest)
-*   multiplication of two large numbers (`bignum_mul_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-mul-bignum/releases/latest)
-*   multiplication of bignum_t by uint64_t (`bignum_mul_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-mul-u64?label=release)](https://github.com/kirill-bayborodov/bignum-mul-u64/releases/latest)
-*   subtraction function for large integers (bignum) (`bignum_sub_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-sub-bignum/releases/latest)
-*   subtracting a 64-bit unsigned integer from a large number (`bignum_sub_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-sub-u64?label=release)](https://github.com/kirill-bayborodov/bignum-sub-u64/releases/latest)
-*   addition of two large numbers (`bignum_add_bignum`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-add-bignum?label=release)](https://github.com/kirill-bayborodov/bignum-add-bignum/releases/latest)
-*   addition of a 64-bit unsigned integer to a large number (`bignum_add_u64`).[![GitHub release (latest by date)](https://img.shields.io/github/v/release/kirill-bayborodov/bignum-add-u64?label=release)](https://github.com/kirill-bayborodov/bignum-add-u64/releases/latest)
+The build uses the existing repository Makefile and CI workflow without modification. The root `libs/bignum-common` checkout is retained as infrastructure because the protected Makefile requires its base declarations first when constructing the single-file header. It is not presented as an operation in the module inventory. The template repository and the `bignum-sub-*` operation repositories are not included.
+
+## Included operation modules
+
+The following completed operation repositories are included under `libs/` and pinned to released commits where a release exists: `bignum-abs`, `bignum-add-bignum`, `bignum-add-u64`, `bignum-and`, `bignum-bit-clear`, `bignum-bit-set`, `bignum-bit-test`, `bignum-copy`, `bignum-core`, `bignum-crt`, `bignum-div-bignum`, `bignum-div-u64`, `bignum-fast-div`, `bignum-from-hex`, `bignum-gcd`, `bignum-inverse`, `bignum-is-prime`, `bignum-isqrt`, `bignum-jacobi`, `bignum-karatsuba-mul`, `bignum-mod`, `bignum-mod-exp`, `bignum-mod-inv`, `bignum-mod-sqrt`, `bignum-montgomery-mul`, `bignum-mul-pow10`, `bignum-mul-pow5`, `bignum-mul-u64`, `bignum-not`, `bignum-or`, `bignum-pow`, `bignum-prime-gen`, `bignum-random`, `bignum-shift-left`, `bignum-shift-right`, `bignum-swap`, `bignum-to-hex`, `bignum-to-string`, and `bignum-xor`.
+
+The newer duplicate utility implementations (`bignum-clear-tail`, `bignum-init`, `bignum-init-from-array`, `bignum-init-from-string`, `bignum-init-pow10`, `bignum-init-u64`, `bignum-is-zero`, and `bignum-normalize`) are preserved under `vendor/compat/` as pinned source submodules for auditability, but are not linked into the aggregate. Their status-returning APIs conflict with the legacy common-base declarations when both are concatenated by the protected Makefile. This keeps all completed source repositories available while making the distributed ABI unambiguous.
+
+## Public interface
+
+The generated aggregate header is available as `dist/bignum.h` after a build. It contains the base type and the public declarations exported by the linked operation modules. Individual module headers remain available in their respective submodules for consumers who need a narrower dependency surface.
+
+Every operation module owns its own status type and contract. Callers should inspect the operation-specific header or generated declaration for validation rules, aliasing restrictions, overflow behavior, and whether an error leaves the destination unchanged.
 
 ## Prerequisites
 
-*   `git`
-*   `make`
-*   `gcc`
-*   `yasm`
+A Linux x86-64 environment with `git`, `make`, GCC, YASM, GNU binutils, and POSIX shell tools is required. The build is designed for System V AMD64 ABI targets. The benchmark framework distribution is vendored at `libs/benchmark-framework/dist/` for reproducible local builds; CI may refresh that distribution according to the protected workflow.
 
-## How to Build and Use
+## Clone and initialize
 
-**1. Clone the repository with submodules:**
+Clone the repository and initialize all nested dependencies:
+
 ```bash
-git clone --recurse-submodules https://github.com/kirill-bayborodov/bignum-lib.git
+git clone https://github.com/kirill-bayborodov/bignum-lib.git
 cd bignum-lib
+git submodule update --init --recursive --jobs 8
 ```
 
-**2. Build the library:**
-This command will compile all modules and create the static library `libbignum.a` in the `dist/` directory.
-```bash
-make build
-```
+The recursive checkout is required because operation repositories retain their own core or common dependencies and benchmark distributions.
 
-**3. Install (Optional):**
-This will copy the library and all necessary public headers into the `dist/` directory, creating a self-contained package.
-```bash
-make install
-```
+## Build and distribution
 
-**4. Link with your application:**
-To use the library, you need to tell your compiler where to find the headers (`-I`) and the library itself (`-L` and `-l`).
+Build all source submodules in release configuration:
 
 ```bash
-# Assuming your project structure is:
-# my_app/
-# ├── main.c
-# └── bignum-lib/  <-- our library folder
-
-# Compile your application:
-gcc main.c -I./bignum-lib/dist -L./bignum-lib/dist -lbignum -o my_app -no-pie
+make build CONFIG=release
 ```
 
-**Example `main.c`:**
-```c
-#include <stdio.h>
-#include "bignum.h" // Include the main library header
+Create the unified distribution, generate `dist/bignum.h`, archive the linked object files into `dist/libbignum.a`, and compile/link the aggregate integration runner:
 
-int main() {
-    bignum_t num = { .len = 1, .words = {123} };
-    bignum_shift_left(&num, 2);
-    printf("Shifted value: %llu\n", num.words[0]); // Should print 492
-    return 0;
-}
+```bash
+make dist CONFIG=release
 ```
+
+A successful distribution build ends with `Distribution created successfully in dist/`. The release directory contains the single header, static archive, integration runner source, and distribution README/license files.
+
+## Integration test
+
+The integration runner is compiled against the generated single header and linked against the aggregate archive by `make dist`. It checks the core representation and exercises representative retained operations, including addition, multiplication, division, shifts, bit operations, logical operations, copying, hexadecimal parsing, and multiplication by powers of 5 and 10.
+
+Run the standalone runner after a successful distribution build with:
+
+```bash
+./dist/test_bignum_runner
+```
+
+The runner must report `All integration tests passed!`. Module-specific tests remain in the upstream submodules and are executed by their own workflows.
+
+## C11 and YASM boundary
+
+Where a module provides both implementations, C11 is the portable reference used for correctness, coverage, and baseline measurements. The selected production symbol may be implemented in YASM, with the same public signature and externally visible contract. The aggregate does not merge implementation internals or require C11 and YASM to use identical algorithms.
+
+## Reproducibility and review
+
+Root `.gitmodules` records every aggregate dependency. A release review must verify that all gitlinks resolve, excluded `bignum-sub-*` operation modules and `bignum-template` are absent from `libs/`, generated header and archive are reproducible, and the integration runner passes. The review must also confirm that no CI workflow or root Makefile was modified.
+
+## Protected files and proposed improvements
+
+The root `Makefile` and `.github/workflows/ci.yml` are protected project inputs and are not edited by this repository update. The current Makefile assumes one base header and a homogeneous generated-header layout; the compatibility modules under `vendor/compat/` document the duplicate-API limitation exposed by that assumption. A future maintenance change could make module selection explicit and distinguish operation headers from benchmark-only bridge headers, but that change must be proposed and reviewed separately before touching the protected files.
+
+## License and contribution
+
+Each submodule retains its upstream license and contribution policy. Changes to an operation belong in that operation's repository. Aggregator changes should be limited to dependency pins, integration coverage, generated-distribution documentation, and release metadata. Pull requests should include the exact build command, integration-test output, affected submodule list, and confirmation that protected files remain unchanged.
