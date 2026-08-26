@@ -34,25 +34,32 @@ DIST_DIR = dist
 COMMON_NAME := $(FAMILY_NAME)-common
 COMMON_DIR  := $(LIBS_DIR)/$(COMMON_NAME)
 
-# --- Submodules Logic (Universal) ---
-SUBMODULES  := $(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/)))
+# --- Submodules Logic (template-compatible) ---
+# Only direct entries under libs/ participate in the aggregate. Nested source
+# dependencies stay owned by their upstream module makefiles.
+SUBMODULES := $(sort $(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/))))
+BASE_SUBMODULES := $(filter $(COMMON_NAME),$(SUBMODULES))
+OPERATION_SUBMODULES := $(filter-out $(COMMON_NAME),$(SUBMODULES))
 SUBMODULES_INCLUDE_DIR := $(foreach d,$(SUBMODULES),$(LIBS_DIR)/$(d)/$(INCLUDE_DIR))
 SUBMODULES_INCLUDE_DIR += $(foreach d,$(SUBMODULES),$(LIBS_DIR)/$(d)/$(DIST_DIR))
-OBJ_LIST    := $(patsubst $(LIBS_DIR)/%/,%,$(filter %/,$(wildcard $(LIBS_DIR)/*/)))
 
-# Отделяем сабмодули с исходниками от вендорных дистрибутивов
-SRC_SUBMODULES  := $(foreach d,$(OBJ_LIST),$(if $(wildcard $(LIBS_DIR)/$(d)/Makefile),$(d),))
-DIST_SUBMODULES := $(filter-out $(SRC_SUBMODULES),$(OBJ_LIST))
+# A source module owns a Makefile; a vendor distribution contributes only its
+# prebuilt archive under dist/.
+SRC_SUBMODULES := $(foreach d,$(SUBMODULES),$(if $(wildcard $(LIBS_DIR)/$(d)/Makefile),$(d),))
+DIST_SUBMODULES := $(filter-out $(SRC_SUBMODULES),$(SUBMODULES))
 
-# Собираем OBJECTS только для тех сабмодулей, у которых реально есть исходники
+# Build only modules that expose the expected family-named source object.
 OBJECTS := $(foreach d,$(SRC_SUBMODULES),$(if $(wildcard $(LIBS_DIR)/$(d)/src/$(subst -,_,$(d)).c $(LIBS_DIR)/$(d)/src/$(subst -,_,$(d)).asm),$(LIBS_DIR)/$(d)/build/$(subst -,_,$(d)).o,))
 
-# Собираем все заголовочные файлы сабмодулей
+# Benchmark bridge headers are build infrastructure, not part of the bignum
+# public API and must not be concatenated into dist/bignum.h.
 SUBMODULES_HEADERS_RAW := $(foreach dir,$(SUBMODULES_INCLUDE_DIR),$(wildcard $(dir)/*.h))
+SUBMODULES_HEADERS_API := $(filter-out %/benchmark_framework.h %/benchmark_core.h,$(SUBMODULES_HEADERS_RAW))
 
-# Выносим bignum.h на первое место, а затем добавляем все остальные файлы
-SUBMODULES_HEADERS := $(filter $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h, $(SUBMODULES_HEADERS_RAW)) \
-                      $(filter-out $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h, $(SUBMODULES_HEADERS_RAW))
+# The common base header must precede operation declarations so bignum_t and
+# BIGNUM_CAPACITY are defined before any module contract is parsed.
+BASE_HEADER := $(filter $(COMMON_DIR)/$(INCLUDE_DIR)/$(FAMILY_NAME).h,$(SUBMODULES_HEADERS_API))
+SUBMODULES_HEADERS := $(BASE_HEADER) $(filter-out $(BASE_HEADER),$(SUBMODULES_HEADERS_API))
 
 # --- Target Files ---
 STATIC_LIB = $(DIST_DIR)/lib$(LIB_NAME).a
@@ -69,7 +76,7 @@ else
     CFLAGS = $(CFLAGS_BASE) -g
 endif
 
-CFLAGS += -Wl,-z,noexecstack
+LDFLAGS += -Wl,-z,noexecstack
 
 .PHONY: all build generate-header dist lint test clean help show-calc
 
@@ -180,7 +187,7 @@ dist: clean
 	@cp README.md $(DIST_DIR)/ 2>/dev/null || true
 	@cp LICENSE $(DIST_DIR)/ 2>/dev/null || true
 	@cp $(TESTS_DIR)/test_$(LIB_NAME)_runner.c $(DIST_DIR)/
-	@$(CC) $(DIST_DIR)/test_$(LIB_NAME)_runner.c -L$(DIST_DIR) -l$(LIB_NAME) -o $(DIST_DIR)/test_$(LIB_NAME)_runner -no-pie
+	@$(CC) $(DIST_DIR)/test_$(LIB_NAME)_runner.c -L$(DIST_DIR) -l$(LIB_NAME) -o $(DIST_DIR)/test_$(LIB_NAME)_runner $(LDFLAGS)
 	@$(DIST_DIR)/test_$(LIB_NAME)_runner
 	@$(RM) $(DIST_DIR)/test_$(LIB_NAME)_runner
 	@echo "Distribution created successfully in $(DIST_DIR)/ "
@@ -202,7 +209,7 @@ lint: generate-header
 
 test: dist
 	@echo "Running integration tests..."
-	@$(CC) $(DIST_DIR)/test_$(LIB_NAME)_runner.c -L$(DIST_DIR) -l$(LIB_NAME) -o $(DIST_DIR)/test_$(LIB_NAME)_runner -no-pie
+	@$(CC) $(DIST_DIR)/test_$(LIB_NAME)_runner.c -L$(DIST_DIR) -l$(LIB_NAME) -o $(DIST_DIR)/test_$(LIB_NAME)_runner $(LDFLAGS)
 	@$(DIST_DIR)/test_$(LIB_NAME)_runner
 	@$(RM) $(DIST_DIR)/test_$(LIB_NAME)_runner
 	@echo "Integration tests passed."
